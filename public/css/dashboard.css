@@ -1,0 +1,447 @@
+.dashboard-container {
+    align-items: start;
+    display: grid;
+    grid-template-columns: 1.6fr 1.4fr;
+    gap: 20px;
+    padding: 20px;
+}
+
+.child-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.child-selector select {
+    padding: 8px 14px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background-color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.child-selector select:hover {
+    border-color: #9ca3af;
+}
+
+.child-selector select:focus {
+    border-color: #6b7280;
+    box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.15);
+}
+
+/* ===== CARD GLOBAL ===== */
+.card {
+    border-radius: 20px;
+    padding: 20px;
+    color: white;
+    min-height: 120px;
+    font-weight: bold;
+}
+
+/* ===== ANMI ===== */
+.card-ANMI {
+    background: #8A8635;
+    grid-column: 1 / 2;
+    grid-row: 1;
+    width: 100%;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+
+.card-ANMI h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 500;
+    color: #fff;
+
+}
+
+/* ===== CHART ANMI ===== */
+.nutrition-wrapper {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 10px;
+    align-items: center;
+}
+
+.nutrition-item {
+    text-align: center;
+    width: 120px;
+}
+
+.nutrition-item p {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #fff;
+}
+
+.nutrition-item span {
+    display: block;
+    margin-top: 8px;
+    font-weight: bold;
+    color: #000;
+}
+
+.chart-container {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+}
+
+/* ===== LMHI ===== */
+.card-LMHI {
+    background: #8A8635;
+    grid-column: 2 / 3;
+    grid-row: 1 / 3; 
+    width: 100%;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.lmhi-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+.lmhi-layout {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.lmhi-chart {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.lmhi-chart canvas {
+    width: 170px !important;
+    height: 170px !important;
+    filter: drop-shadow(0 8px 12px rgba(0,0,0,0.25));
+}
+
+.lmhi-list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+.lmhi-item {
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.lmhi-list::-webkit-scrollbar {
+    display: none;
+}
+
+/* legend */
+.lmhi-legend {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.legend::before {
+    content: "";
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 6px;
+}
+
+.legend.energy::before { background-color: #CC561E; }
+.legend.protein::before { background-color: #08448E; }
+.legend.fat::before { background-color: #D6A15E; }
+
+/* ===== empty-state ===== */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+    padding: 10px 20px;
+    color: white;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.empty-img {
+    width: 140px;
+    margin-bottom: 15px;
+}
+
+.empty-state h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #F3CF7A;
+}
+
+.empty-state p {
+    font-size: 12px;
+    opacity: 0.85;
+    max-width: 250px;
+    font-weight: 400;
+}
+
+/* ===== SNB ===== */
+.card-SNB {
+    background: #E6C27A;
+    grid-column: 1 / 2;
+    grid-row: 2;
+    width: 100%;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+
+    max-height: 160px; 
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+/* title */
+.SNB-title {
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #000;
+}
+
+/* content layout */
+.SNB-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    flex: 1; 
+}
+
+/* icon */
+.SNB-icon {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+}
+
+/* text */
+.SNB-text {
+    font-size: 12px;
+    color: #AA2B1D;
+    line-height: 1.6;
+    font-weight: 500;
+
+    max-height: 100%; 
+    overflow-y: auto; 
+    padding-right: 5px;
+}
+
+.SNB-text::-webkit-scrollbar {
+    width: 4px;
+}
+
+.SNB-text::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.2);
+    border-radius: 10px;
+}
+
+/* ===== filter button ===== */
+/* ===== WRAPPER ===== */
+.nutrition-filter {
+    display: flex;
+    align-items: center;
+    position: relative;
+
+    background: #FFF5DE;
+    border-radius: 12px;
+    overflow: hidden;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+
+    grid-column: 1 / 2;
+    grid-row: 3;
+    margin-top: 8px;
+
+    width: max-content;    
+    padding: 4px;          
+    gap: 4px;              
+}
+
+/* ===== CARD WEEKLY CHART ===== */
+.card.card-weekly-chart {
+    grid-column: 1 / 2;
+    grid-row: 3;
+}
+
+.card-weekly-chart {
+    background: #fff;
+    border-radius: 20px;
+    padding: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* ===== FILTER ===== */
+.nutrition-filter {
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    background: #FFF5DE;
+    border-radius: 10px;
+    margin-bottom: 20px;
+
+    width: fit-content;
+}
+
+/* ===== BUTTON ===== */
+.filter-btn {
+    padding: 10px 50px;
+    font-size: 13px;
+    font-weight: 600;
+
+    border: none;
+    background: transparent;
+    cursor: pointer;
+
+    color: #555;
+    border-radius: 8px;
+
+    transition: all 0.25s ease;
+}
+
+.filter-btn:hover {
+    background: rgba(0,0,0,0.05);
+}
+
+.filter-btn.active {
+    background: #FFD83D;
+    color: #5A4500;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* ===== CHART ===== */
+.weekly-chart {
+    width: 100%;
+    height: 220px;
+}
+
+.card-TSKH {
+    background: #8A8635;
+    border-radius: 24px;
+    padding: 20px;
+    color: white;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+
+    grid-column: 2/ 3;
+    grid-row:  3; 
+    transform: translateY(-70px);
+
+}
+
+.TSKH-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* TABLE CONTAINER */
+.TSKH-table {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; 
+}
+
+/* HEADER */
+.TSKH-header {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    font-size: 13px;
+    font-weight: 600;
+    opacity: 0.9;
+    padding: 8px 12px;
+}
+
+/* ROW */
+.TSKH-row {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+
+    font-size: 13px;
+    font-weight: 400;
+
+    padding: 12px; 
+    border-radius: 10px;
+
+    align-items: center; 
+}
+
+.TSKH-footer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* INI KUNCI UTAMA */
+.footer-text {
+    flex: 1;             
+    min-width: 0;      
+    color: #FFD83D;   
+    font-weight: 400;
+}
+
+.footer-text p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.4;
+
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* ===== Scrollbar ===== */
+/* scrollbar utama */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+/* track (background) */
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* thumb (yang bisa digeser) */
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+}
+
+/* hover effect */
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}

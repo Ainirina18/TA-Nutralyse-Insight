@@ -1,0 +1,122 @@
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #f4f5f7;
+}
+
+/* WRAPPER */
+.profile-wrapper {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+/* ===== HEADER ===== */
+.header {
+    position: relative;
+    height: 200px; /* 🔥 FIX: lebih tinggi */
+    border-radius: 20px;
+    background: #a5a66a;
+    overflow: visible;
+}
+
+/* BACKGROUND */
+.header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url('/images/header-bg.png') center/cover no-repeat;
+    opacity: 0.25;
+    z-index: 0;
+}
+
+/* ===== FOTO ===== */
+.profile-img {
+    position: absolute;
+    bottom: -50px; /* 🔥 FIX: jangan terlalu turun */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+}
+
+.profile-img img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 6px solid #FFD83D;
+    object-fit: cover;
+    background: white;
+    display: block;
+}
+
+.photo-space {
+    height: 30px; /* 🔥 ruang buat foto */
+}
+
+/* ===== NAME ===== */
+.name {
+    margin-top: 90px; /* 🔥 FIX: kasih ruang dari foto */
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* ===== GRID ===== */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 20px;
+}
+
+/* ===== CARD ===== */
+.card {
+    background: #e8dcc3;
+    padding: 16px;
+    border-radius: 12px;
+
+    display: flex;               /* 🔥 WAJIB */
+    flex-direction: column;      /* 🔥 biar ke bawah */
+    align-items: center;         /* 🔥 ini yang bikin tengah */
+    justify-content: center;     /* opsional biar makin rapi */
+
+    text-align: center;
+}
+
+.card-icon {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 6px;
+}
+
+/* WARNA */
+.grid .card:nth-child(3n+1) {
+    background: #F8ECD0;
+}
+.grid .card:nth-child(3n+2) {
+    background: #C6C38B;
+}
+.grid .card:nth-child(3n+3) {
+    background: #FFF3C3;
+}
+
+.grid .card:nth-child(3n+1),
+.grid .card:nth-child(3n+2),
+.grid .card:nth-child(3n+3) {
+    color: #2F2F2F;
+}
+
+/* HIGHLIGHT */
+.card.highlight {
+    background: #a5a66a;
+    color: white;
+}
+
+/* TEXT */
+.card p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.card h3 {
+    margin-top: 10px;
+}

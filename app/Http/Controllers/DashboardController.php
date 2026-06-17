@@ -1,30 +1,33 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use App\Services\SupabaseService;
 use App\Services\NutritionService;
+use App\Services\GeminiService;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+
 
 class DashboardController extends Controller
 {
     private SupabaseService $supabase;
     private NutritionService $nutrition;
+    private GeminiService $gemini;
 
     public function __construct(
         SupabaseService $supabase,
-        NutritionService $nutrition
+        NutritionService $nutrition,
+        GeminiService $gemini,
     ) {
         $this->supabase = $supabase;
         $this->nutrition = $nutrition;
+        $this->gemini = $gemini;
     }
 
     public function index()
     {
-        // 🔐 LOGIN CHECK
+        //  LOGIN CHECK
         if (!session()->has('user')) {
             return redirect('/login');
         }
@@ -36,46 +39,32 @@ class DashboardController extends Controller
             return redirect('/login');
         }
 
-        // 👶 GET CHILDREN
-        $childResponse = Http::withHeaders([
-            'apikey' => env('SUPABASE_ANON_KEY'),
-            'Authorization' => 'Bearer ' . $token,
-        ])->get(env('SUPABASE_URL') . '/rest/v1/children', [
-            'user_id' => 'eq.' . $userId
-        ]);
-
-        $children = collect($childResponse->json());
+        //  GET CHILDREN
+        $children = collect(
+            $this->supabase->getChildrenByUser($userId, $token)
+        )->map(fn ($item) => (object) $item);
 
         if ($children->isEmpty()) {
             return back()->with('error', 'Data anak tidak ditemukan');
         }
 
-        // 🧠 ACTIVE CHILD
-        $activeChildId = session('active_child_id') ?? $children->first()['id'];
-
-        $activeChild = $children->firstWhere('id', $activeChildId);
+      //  active child
+        $activeChild = $this->nutrition->getActiveChild($children);
 
         if (!$activeChild) {
-            $activeChild = $children->first();
-            $activeChildId = $activeChild['id'];
-            session(['active_child_id' => $activeChildId]);
+            return back()->with('error', 'Child tidak ditemukan');
         }
 
-        // 🎯 AGE
-        $userAge = (float) ($activeChild['age'] ?? 0);
+        $activeChildId = $activeChild->id;
 
-        // 🎯 AKG TARGET
-        $akg = DB::connection('pgsql')
-            ->table('master_akg')
-            ->where('usia_min', '<=', $userAge)
-            ->where('usia_max', '>=', $userAge)
-            ->first();
+        //  AKG dari service
+        $targets = $this->nutrition->getAKGTargets($activeChild);
 
-        $targetEnergy = (float) ($akg->energi ?? 0);
-        $targetProtein = (float) ($akg->protein ?? 0);
-        $targetFat = (float) ($akg->lemak ?? 0);
+        $targetEnergy = $targets['energy'];
+        $targetProtein = $targets['protein'];
+        $targetFat = $targets['fat'];
 
-        // 📊 SCAN LOGS
+        //  logs
         $dailyLogs = collect(
             $this->supabase->getDailyScanLogsByChild($activeChildId)
         )->map(fn ($item) => (object) $item);
@@ -84,70 +73,165 @@ class DashboardController extends Controller
             $this->supabase->getWeeklyScanLogsByChild($activeChildId)
         )->map(fn ($item) => (object) $item);
 
-        // 🧮 DAILY TOTAL
-        $dailyTotals = $this->nutrition->calculateTotals($dailyLogs);
+        // analytics
+        $daily = $this->nutrition->getDailyAnalytics(
+            $dailyLogs,
+            $targetEnergy,
+            $targetProtein,
+            $targetFat
+        );
 
-        // 🧮 WEEKLY TOTAL
-        $weeklyTotals = [
-            'energy' => $weeklyLogs->sum('energy'),
-            'protein' => $weeklyLogs->sum('protein'),
-            'fat' => $weeklyLogs->sum('fat'),
-        ];
+        $weekly = $this->nutrition->getWeeklyAnalytics(
+            $weeklyLogs,
+            $targetEnergy,
+            $targetProtein,
+            $targetFat
+        );
 
-        // 📈 WEEKLY CHART DATA
-        $weeklyData = $weeklyLogs->groupBy(function ($item) {
-            return Carbon::parse($item->scanned_at)->format('Y-m-d');
-        })->map(function ($items, $date) {
-            return [
-                'date' => $date,
-                'energy' => $items->sum('energy'),
-                'protein' => $items->sum('protein'),
-                'fat' => $items->sum('fat'),
-            ];
-        })->values();
+    $statuses = $this->nutrition->getNutritionStatuses($weekly);
 
-        // 🔴 DAILY STATUS
-        $energy = $dailyTotals['energy'] ?? 0;
-        $protein = $dailyTotals['protein'] ?? 0;
-        $fat = $dailyTotals['fat'] ?? 0;
+    $energyStatus = $statuses['energy'];
+    $proteinStatus = $statuses['protein'];
+    $fatStatus = $statuses['fat'];
 
-        $weeklyTargetEnergy = $targetEnergy * 7;
-        $weeklyTargetProtein = $targetProtein * 7;
-        $weeklyTargetFat = $targetFat * 7;
+   // ================= EARLY WARNING =================
+
+    $warningData = [
+
+        'energy_percentage' =>
+            round(($weekly['totals']['energy'] / $weekly['targets']['energy']) * 100),
+
+        'protein_percentage' =>
+            round(($weekly['totals']['protein'] / $weekly['targets']['protein']) * 100),
+
+        'fat_percentage' =>
+            round(($weekly['totals']['fat'] / $weekly['targets']['fat']) * 100),
+    ];
+
+    // ambil tanggal scan pertama
+    $firstScanDate =
+        collect($weeklyLogs)->min('scanned_at');
+
+    // hitung hari berjalan
+    $daysPassed =
+        \Carbon\Carbon::parse($firstScanDate)
+        ->diffInDays(now());
+
+    // minggu evaluasi AI
+    $currentWeek =
+        ceil(($daysPassed + 1) / 7);
+
+    // trigger tiap akhir minggu
+    $isEndOfWeek =
+        ($daysPassed + 1) % 7 == 0;
+
+    // ambil warning terakhir
+    $latestWarning = DB::connection('pgsql')
+        ->table('early_warnings')
+        ->where('child_id', $activeChildId)
+        ->orderByDesc('created_at')
+        ->first();
+
+    if ($isEndOfWeek) {
+
+        // cek apakah minggu ini sudah pernah generate
+        $alreadyGenerated = DB::connection('pgsql')
+            ->table('early_warnings')
+            ->where('child_id', $activeChildId)
+            ->where('warning_week', $currentWeek)
+            ->where('warning_month', now()->month)
+            ->where('warning_year', now()->year)
+            ->exists();
+
+        if (!$alreadyGenerated) {
+
+            try {
+
+                $response =
+                    $this->gemini->generateWeeklyWarning($warningData);
+
+                $earlyWarning =
+                    $response['candidates'][0]['content']['parts'][0]['text']
+                    ?? 'Belum ada evaluasi.';
+
+                // simpan ke database
+                DB::connection('pgsql')
+                    ->table('early_warnings')
+                    ->insert([
+
+                        'user_id' => $userId,
+
+                        'child_id' => $activeChildId,
+
+                        'warning_week' => $currentWeek,
+
+                        'warning_month' => now()->month,
+
+                        'warning_year' => now()->year,
+
+                        'warning_text' => $earlyWarning,
+
+                        'created_at' => now(),
+                    ]);
+
+            } catch (\Exception $e) {
+
+                $earlyWarning =
+                    $latestWarning->warning_text
+                    ?? 'Evaluasi AI sedang tidak tersedia.';
+            }
+
+        } else {
+
+            $earlyWarning =
+                $latestWarning->warning_text
+                ?? 'Evaluasi mingguan belum tersedia.';
+        }
+
+    } else {
+
+        $earlyWarning =
+            $latestWarning->warning_text
+            ?? 'Evaluasi mingguan belum tersedia.';
+    }
+
 
         return view('dashboard', [
-            // 👶 CHILD
-            'children' => $children,
-            'activeChildId' => $activeChildId,
-            'activeChild' => $activeChild,
+        // CHILD
+        'children' => $children,
+        'activeChildId' => $activeChildId,
+        'activeChild' => $activeChild,
 
-            // 📊 DAILY
-            'lmhiLogs' => $dailyLogs,
-            'energy' => $energy,
-            'protein' => $protein,
-            'fat' => $fat,
+        // DAILY
+        'lmhiLogs' => $dailyLogs,
+        'energy' => $daily['totals']['energy'],
+        'protein' => $daily['totals']['protein'],
+        'fat' => $daily['totals']['fat'],
 
-            // 📈 WEEKLY
-            'weeklyLogs' => $weeklyLogs,
-            'weeklyEnergy' => $weeklyTotals['energy'],
-            'weeklyProtein' => $weeklyTotals['protein'],
-            'weeklyFat' => $weeklyTotals['fat'],
-            'weeklyData' => $weeklyData,
+        // WEEKLY
+        'weeklyLogs' => $weeklyLogs,
+        'weeklyEnergy' => $weekly['totals']['energy'],
+        'weeklyProtein' => $weekly['totals']['protein'],
+        'weeklyFat' => $weekly['totals']['fat'],
+        'weeklyData' => $weekly['chart'],
 
-            // 🎯 TARGET
-            'targetEnergy' => $targetEnergy,
-            'targetProtein' => $targetProtein,
-            'targetFat' => $targetFat,
+        // TARGET
+        'targetEnergy' => $targetEnergy,
+        'targetProtein' => $targetProtein,
+        'targetFat' => $targetFat,
 
-            //TARGET WEEKLY
-            'weeklyTargetEnergy' => $weeklyTargetEnergy,
-            'weeklyTargetProtein' => $weeklyTargetProtein,
-            'weeklyTargetFat' => $weeklyTargetFat,
-            
-            // 🔻 SISA (optional kalau dipakai UI)
-            'sisaEnergy' => max(0, $targetEnergy - $energy),
-            'sisaProtein' => max(0, $targetProtein - $protein),
-            'sisaFat' => max(0, $targetFat - $fat),
+        // WEEKLY TARGET
+        'weeklyTargetEnergy' => $weekly['targets']['energy'],
+        'weeklyTargetProtein' => $weekly['targets']['protein'],
+        'weeklyTargetFat' => $weekly['targets']['fat'],
+
+        // SISA
+        'sisaEnergy' => $daily['sisa']['energy'],
+        'sisaProtein' => $daily['sisa']['protein'],
+        'sisaFat' => $daily['sisa']['fat'],
+
+        //EARLY WARNING
+        'earlyWarning' => $earlyWarning,
         ]);
     }
 

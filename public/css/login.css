@@ -1,180 +1,336 @@
-.login-container{
-    display:flex;
-    min-height:100vh;
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* KIRI */
+body{
+    font-family: 'Poppins', sans-serif;
+    background: #F7F5F1;
+
+    overflow-x: hidden;
+}
+
+/* ================= CONTAINER ================= */
+
+.login-container{
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+}
+
+/* ================= LEFT ================= */
+
 .login-left{
-    flex:1.5;
-    background:url('/images/bg-login.png') center/cover no-repeat;
-    display:flex;
-    align-items:center;
-    padding-left:60px;
-    color:white;
+    width: 57%;
+
+    position: relative;
+
+    background:
+        linear-gradient(
+            135deg,
+            #DDE4BE,
+            #B8C97C
+        );
+
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+/* ================= WAVE ================= */
+
+.wave-shape{
+    position: absolute;
+
+    top: 0;
+    right: -2px;
+
+    width: 120px;
+    height: 100%;
+
+    z-index: 1;
+}
+
+/* ================= OVERLAY ================= */
+
+.left-overlay{
+    position: absolute;
+
+    width: 720px;
+    height: 720px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.12);
+
+    top: -220px;
+    left: -180px;
+
+    filter: blur(40px);
+}
+
+/* ================= CONTENT ================= */
+
+.left-content{
+    width: 82%;
+
+    position: relative;
+    z-index: 2;
+
+    padding-top: 25px;
+    padding-left: 18px;
+
+    color: #1F311F;
+}
+
+.brand-badge{
+    display: inline-flex;
+    align-items: center;
+
+    width: fit-content;
+
+    padding: 11px 11px;
+
+    border-radius: 999px;
+
+    background: rgba(255,255,255,0.18);
+
+    backdrop-filter: blur(12px);
+
+    color: #5C744F;
+
+    font-size: 18px;
+    font-weight: 600;
+
+    margin-bottom: 24px;
 }
 
 .left-content h1{
-    font-size: 30px;
-    font-weight:bold;
-    margin-bottom:10px;
-    margin-top: 50px;
+    font-size: 35px;
+    line-height: 1.18;
+
+    font-weight: 700;
+
+    margin-bottom: 18px;
 }
 
 .left-content p{
-    font-size:15px;
-    color: #FFD83D;
+    width: 72%;
+
+    font-size: 13px;
+    line-height: 1.8;
+
+    color: rgba(31,49,31,0.72);
+
+    margin-bottom: 5px;
 }
 
 .left-img{
-    width:750px;
-    margin-top:15px;
-    margin-left: -110px;
+    width: 100%;
+    max-width: 530px;
+
+    margin-top: 0px;
+    margin-left: 40px;
+
+    filter:
+        drop-shadow(
+            0 20px 30px rgba(0,0,0,0.08)
+        );
 }
 
-/* KANAN */
+/* ================= RIGHT ================= */
+
 .login-right{
-    flex:1;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background: linear-gradient(white, #fffaf2);
+    width: 43%;
+
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
+/* ================= LIGHT GLOW ================= */
+
+.login-right::before{
+    content: '';
+
+    position: absolute;
+
+    width: 360px;
+    height: 360px;
+
+    border-radius: 50%;
+
+    background: rgba(138,134,53,0.06);
+
+    filter: blur(90px);
+
+    top: 120px;
+    right: -100px;
+}
+
+/* ================= CARD ================= */
 
 .login-card{
-    width:350px;
-    background: linear-gradient(white, #fffaf2);
-    padding:60px 25px; 
-    border-radius:20px;
-    text-align:center;
-    box-shadow: 0 4px 10px 7px rgba(0, 0, 0, 0.25);
+    width: 390px;
+
+    min-height: 540px;
+
+    background: rgba(255,255,255,0.92);
+
+    backdrop-filter: blur(20px);
+
+    border-radius: 34px;
+
+    padding: 34px 30px;
+
+    position: relative;
+    z-index: 2;
+
+    box-shadow:
+        0 18px 45px rgba(0,0,0,0.08);
 }
 
-.login-right h2 {
-    font-size: 20px;
-    font-weight: bold;
-    color: #AA2B1D;
+.login-card h2{
+    font-size: 22px;
+    line-height: 1.15;
+    text-align: center;
+
+    font-weight: 700;
+
+    color: #162516;
+
+    margin-bottom: 25px;
 }
 
-.line-divider{
-    width:100%;
-    height:1px;
-    background:#ddd;     /* warna garis */
-    margin:20px 0;
+.login-sub{
+    font-size: 14px;
+    line-height: 1.8;
+    text-align: center;
+
+    color: #6E6E6E;
+
+    margin-bottom: 30px;
 }
 
-.login-right p{
-    font-size: 12px;
-    margin-bottom: 20px;
-}
+/* ================= INPUT ================= */
 
 .input-group{
-    position: relative;
-    margin-top: 12px;
+    width: 100%;
+    height: 56px;
+
+    background: #F5F6EF;
+
+    border-radius: 16px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 18px;
+
+    margin-bottom: 20px;
+
+    border: 1.5px solid transparent;
+
+    transition: .2s;
 }
 
-.login-card input.login-input{
-    background:#F8ECD0;
-    border: none;
+.input-group:focus-within{
+    border-color: #8A8635;
+
+    box-shadow:
+        0 0 0 5px rgba(138,134,53,0.10);
 }
 
 .icon{
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
     width: 18px;
-    opacity: 0.7;
+
+    margin-right: 12px;
+
+    opacity: .75;
 }
 
 .login-input{
     width: 100%;
-    padding: 8px 10px 8px 38px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    background: #F8ECD0;
-    font-size: 13px;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    color: #222;
 }
 
-.btn{
-    width:35%;
-    padding:8px;
-    margin-top:20px;
-    background:#AA2B1D;
-    border:none;
-    border-radius:12px;
-    color:white;
-    font-weight:bold;
+.login-input::placeholder{
+    color: #9A9A9A;
 }
+
+/* ================= REMEMBER ================= */
 
 .remember-box{
-    margin-top:20px;
-    text-align:left;
+    margin-top: 4px;
+    margin-bottom: 30px;
 }
 
 .remember-box label{
-    font-size: 12px;
-}
-.error{
-    color:red;
-    font-size:13px;
-}
-
-/* Fix Chrome Autofill */
-.login-card input.login-input:-webkit-autofill,
-.login-card input.login-input:-webkit-autofill:hover,
-.login-card input.login-input:-webkit-autofill:focus {
-    -webkit-box-shadow: 0 0 0 1000px #F8ECD0 inset !important;
-    -webkit-text-fill-color: #000 !important;
-    transition: background-color 5000s ease-in-out 0s;
-}
-
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.4);
     display: flex;
-    justify-content: center;
     align-items: center;
-    z-index: 9999;
+    gap: 10px;
+
+    font-size: 13px;
+
+    color: #666;
 }
 
-.modal-card {
-    width: 320px;
-    background: #fff4c7;
-    border-radius: 20px;
-    padding: 40px 25px;
-    min-height: 320px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+/* ================= BUTTON ================= */
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+.btn{
+    width: 100%;
+    height: 54px;
 
-.modal-icon img {
-    width: 120px;
-    margin-bottom: 10px;
-}
-
-.modal-title {
-    font-size: 18px;
-    font-weight: bold;
-    color: #c0392b;
-    margin-bottom: 10px;
-}
-
-.modal-text {
-    font-size: 14px;
-    color: #444;
-    margin-bottom: 20px;
-}
-
-.modal-btn {
-    background: #c0392b;
-    color: white;
     border: none;
-    padding: 8px 20px;
-    border-radius: 10px;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #5F7D4E,
+            #314A37
+        );
+
+    color: white;
+
+    font-size: 15px;
+    font-weight: 600;
+
     cursor: pointer;
+
+    transition: .2s;
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,0.10);
+}
+
+.btn:hover{
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 18px 38px rgba(0,0,0,0.14);
+}
+
+/* ================= ERROR ================= */
+
+.error{
+    font-size: 13px;
+
+    color: #D64545;
+
+    margin-bottom: 14px;
 }

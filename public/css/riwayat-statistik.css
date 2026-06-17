@@ -1,0 +1,233 @@
+/* ================= WRAPPER ================= */
+
+.history-wrapper{
+    padding: 24px;
+}
+
+/* ================= HEADER ================= */
+
+.history-wrapper .history-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 32px;
+}
+
+.history-wrapper .history-title-area h1{
+    font-size: 25px;
+    font-weight: 700;
+
+    color: #111;
+
+    margin-bottom: 8px;
+}
+
+.history-wrapper .history-title-area p{
+    font-size: 15px;
+    color: #666;
+}
+
+/* ================= GRID ================= */
+
+.history-wrapper .history-grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 24px;
+}
+
+/* ================= CARD ================= */
+
+.history-wrapper .history-card{
+    background: #fff;
+
+    border-radius: 24px;
+
+    padding: 24px;
+
+    border: 1.5px solid #EFEFEF;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+
+    transition: 0.2s ease;
+}
+
+.history-wrapper .history-card:hover{
+    transform: translateY(-3px);
+}
+
+/* ================= TOP ================= */
+
+.history-wrapper .card-top{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    margin-bottom: 24px;
+}
+
+/* ================= ICON ================= */
+
+.history-wrapper .month-icon{
+    width: 72px;
+    height: 72px;
+
+    border-radius: 22px;
+
+    background: #F8F3EA;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.history-wrapper .month-icon img{
+    width: 34px;
+}
+
+/* ================= INFO ================= */
+
+.history-wrapper .month-info h3{
+    font-size: 22px;
+    font-weight: 700;
+
+    color: #111;
+
+    margin-bottom: 8px;
+}
+
+/* ================= STATUS ================= */
+
+.history-wrapper .status-badge{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 6px 14px;
+
+    border-radius: 999px;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.history-wrapper .status-badge.available{
+    background: #E5F3D7;
+    color: #6A8A35;
+}
+
+/* ================= SUMMARY ================= */
+
+.history-wrapper .nutrition-summary{
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-bottom: 22px;
+}
+
+/* ================= CHIP ================= */
+
+.history-wrapper .nutrition-chip{
+    padding: 10px 14px;
+
+    border-radius: 14px;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.history-wrapper .nutrition-chip.energy{
+    background: #FFF0CC;
+    color: #C88B00;
+}
+
+.history-wrapper .nutrition-chip.protein{
+    background: #E6F6E8;
+    color: #3D8A55;
+}
+
+.history-wrapper .nutrition-chip.fat{
+    background: #FFE3E8;
+    color: #C45B76;
+}
+
+/* ================= DATE ================= */
+
+.history-wrapper .generated-date{
+    font-size: 14px;
+    color: #777;
+
+    margin-bottom: 22px;
+}
+
+/* ================= BUTTON ================= */
+
+.history-wrapper .view-btn{
+    width: 100%;
+    height: 52px;
+
+    border-radius: 16px;
+
+    border: none;
+
+    background: #C8D26A;
+
+    color: #111;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-decoration: none;
+
+    transition: 0.2s ease;
+}
+
+.history-wrapper .view-btn:hover{
+    background: #B9C65A;
+}
+
+/* ================= EMPTY ================= */
+
+.history-wrapper .empty-history{
+    grid-column: 1 / -1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    margin-top: 40px;
+}
+
+.history-wrapper .empty-img{
+    width: 260px;
+
+    margin-bottom: 20px;
+}
+
+.history-wrapper .empty-history h3{
+    font-size: 28px;
+    font-weight: 700;
+
+    color: #111;
+
+    margin-bottom: 14px;
+}
+
+.history-wrapper .empty-history p{
+    font-size: 16px;
+    line-height: 1.8;
+
+    color: #666;
+
+    max-width: 500px;
+}

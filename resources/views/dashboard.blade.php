@@ -1,34 +1,68 @@
 <x-app-layout>
 
-   <x-slot name="header">
-    <div class="flex justify-between items-center">
-
-        <h2 class="text-2xl font-semibold text-gray-800">
-            Dashboard Nutralyse-Insight
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            Dashboard
         </h2>
+    </x-slot>
 
-        <form method="POST" action="{{ route('dashboard.set-child') }}">
-            @csrf
+    {{-- TOPBAR --}}
+    <div class="dashboard-topbar">
 
-            <select name="child_id"
-                    onchange="this.form.submit()"
-                    class="border rounded-lg px-3 py-2 text-sm bg-white">
+        <div class="dropdown-group">
 
-                @foreach($children as $child)
-                    <option value="{{ $child['id'] }}"
-                        {{ $activeChildId == $child['id'] ? 'selected' : '' }}>
-                        👶 {{ $child['name'] }}
-                    </option>
-                @endforeach
+            <form
+                method="POST"
+                action="{{ route('dashboard.set-child') }}">
 
-            </select>
+                @csrf
 
-        </form>
+                <div class="dropdown-wrapper">
+
+                    <select
+                        name="child_id"
+                        onchange="this.form.submit()"
+                        class="child-dropdown"
+                    >
+
+                        <option disabled hidden>
+
+                            Pilih Ananda
+
+                        </option>
+
+                        @foreach($children as $child)
+
+                            <option
+                                value="{{ $child->id }}"
+                                {{ $activeChildId == $child->id ? 'selected' : '' }}
+                            >
+
+                                {{ $child->name }}
+
+                            </option>
+
+                        @endforeach
+
+                    </select>
+
+                    <img
+                        src="{{ asset('icons/dropdown.svg') }}"
+                        class="dropdown-icon-right"
+                    >
+
+                </div>
+
+            </form>
+        </div>
+
+        <div class="hello-text">
+
+            Hallo, {{ $activeChild->name }}
+
+        </div>
 
     </div>
-</x-slot>
-
-    <div class="space-y-6">
 
         <div class="dashboard-container">
 
@@ -110,9 +144,9 @@
                     <img src="/images/SNB-logo.png" class="SNB-icon" alt="icon">
 
                     <p class="SNB-text">
-                        Terdeteksi defisit nutrisi berdasarkan data terakhir.
-                        Coba variasikan menu anak hari ini.
+                        {{ $earlyWarning ?? 'Belum ada evaluasi AI.' }}
                     </p>
+
                 </div>
             </div>
 

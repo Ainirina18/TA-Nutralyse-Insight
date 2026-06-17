@@ -1,0 +1,292 @@
+
+@page {
+    margin: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #222;
+}
+
+/* ================= GLOBAL ================= */
+
+p {
+    font-size: 12px;
+    margin: 0;
+}
+
+h1, h2, h3, h4, h5 {
+    font-weight: 600;
+    margin: 0;
+}
+
+/* ================= PAGE ================= */
+
+.pdf-page {
+    width: 210mm;
+    height: 297mm;
+    padding: 14mm;
+    background: white;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+}
+
+.pdf-page:last-child {
+    page-break-after: auto;
+}
+
+/* ================= HEADER ================= */
+
+.pdf-header {
+    width: 100%;
+    border-bottom: 2px solid #A4A23B;
+    padding-bottom: 10px;
+}
+
+.header-icon {
+    width: 50px;
+    vertical-align: middle;
+}
+
+.header-text {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+}
+
+.header-text h1 {
+    font-size: 22px;
+}
+
+.header-text h2 {
+    margin-top: 4px;
+    font-size: 15px;
+    color: #C5532D;
+}
+
+/* ================= PROFILE ================= */
+
+.child-profile {
+    background: #F4E7C8;
+    border-radius: 12px;
+    padding: 14px;
+    margin-top: 16px;
+}
+
+.child-profile h3 {
+    margin-bottom: 10px;
+}
+
+.profile-grid {
+    width: 100%;
+}
+
+.profile-column {
+    width: 48%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.profile-column p {
+    font-size: 12px;
+    line-height: 1.6;
+    margin-bottom: 6px;
+}
+
+/* ================= SECTION ================= */
+
+.section-title {
+    margin-top: 18px;
+    margin-bottom: 10px;
+}
+
+/* ================= DAILY CHART ================= */
+
+.chart-grid {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.chart-card {
+    width: 32%;
+    height: 95px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: transparent;
+}
+
+.chart-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* ================= TOTAL ================= */
+
+.nutrition-total {
+    margin-top: 18px;
+    border: 2px solid #C8D26A;
+    padding: 14px;
+    border-radius: 12px;
+}
+
+.nutrition-total h4 {
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.nutrition-grid {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.nutrition-item {
+    width: 33%;
+}
+
+.nutrition-item span {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 12px;
+}
+
+.nutrition-item strong {
+    font-size: 16px;
+}
+
+/* ================= EVALUATION ================= */
+
+.evaluation-block {
+    margin-top: 14px;
+}
+
+.evaluation-block h4 {
+    margin-bottom: 6px;
+}
+
+.evaluation-block p {
+    font-size: 12px;
+    line-height: 1.7;
+    text-align: justify;
+}
+
+/* ================= WEEKLY ================= */
+
+.weekly-title {
+    margin-top: 18px;
+    margin-bottom: 12px;
+    color: #D1A100;
+}
+
+.weekly-group {
+    margin-top: 10px;
+}
+
+.weekly-item {
+    margin-bottom: 14px;
+}
+
+.weekly-item h5 {
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+.weekly-charts {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.mini-chart-img {
+    width: 32%;
+    height: 110px; /* DIGEDEIN */
+    object-fit: contain;
+}
+
+
+/* ================= PAGE 3 ================= */
+
+.motivation-card {
+    background: #F9E6A5;
+    padding: 16px;
+    border-radius: 14px;
+}
+
+.motivation-card h4 {
+    margin-bottom: 8px;
+    color: #E0A300;
+}
+
+.motivation-card p {
+    text-align: justify;
+    line-height: 1.8;
+}
+
+.mission-card {
+    margin-top: 16px;
+    background: #C8C06A;
+    border-radius: 14px;
+    padding: 16px;
+}
+
+.mission-img {
+    width: 70px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.mission-content {
+    width: 78%;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 10px;
+}
+
+.mission-content h4 {
+    margin-bottom: 6px;
+}
+
+.mission-content p {
+    text-align: justify;
+    line-height: 1.8;
+}
+
+.reminder-card {
+    margin-top: 16px;
+}
+
+.reminder-icon {
+    width: 40px;
+    vertical-align: top;
+}
+
+.reminder-card p {
+    width: 84%;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 10px;
+    text-align: justify;
+    line-height: 1.7;
+}
+
+/* ================= FOOTER ================= */
+
+.footer {
+    position: absolute;
+    bottom: 8mm;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 15px;
+    color: #888;
+}

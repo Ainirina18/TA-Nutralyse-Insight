@@ -24,14 +24,17 @@ class AuthController extends Controller
 
         $data = $response->json();
 
-        if (isset($data['error'])) {
-            return back()->with('login_error', $data['error_description'] ?? 'Login gagal');
+        if (!isset($data['access_token'])) {
+            return back()->with(
+            'login_error',
+            'Email atau password salah'
+        );
         }
 
         session([
             'access_token' => $data['access_token'],
             'user' => $data['user'],
-            'user_id' => $data['user']['id'], // 🔥 INI KUNCINYA
+            'user_id' => $data['user']['id'], 
         ]);
 
         return redirect('/dashboard');

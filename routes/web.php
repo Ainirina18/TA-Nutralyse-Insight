@@ -6,6 +6,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\ChildProfileController;
+use App\Http\Controllers\StatistikAsupanController;
+use App\Http\Controllers\RiwayatStatistikController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,6 +28,16 @@ Route::post('/dashboard/set-child', [DashboardController::class, 'setChild'])
     ->name('dashboard.set-child');
 
 Route::get('/profile-balita', [ChildProfileController::class, 'index']);
+
+Route::get('/statistik-asupan', [StatistikAsupanController::class, 'index'])
+    ->name('statistik.asupan');
+
+Route::post('/statistik-asupan/export-pdf', [StatistikAsupanController::class, 'exportPdf'])
+->name('statistik.export.pdf');
+
+Route::get('/riwayat-statistik', [RiwayatStatistikController::class, 'index'])
+->name('riwayat.statistik');
+
 /*Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');*/

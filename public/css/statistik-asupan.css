@@ -1,0 +1,384 @@
+.full-wrapper {
+    margin-left: -24px;   
+    margin-right: -24px;  
+    margin-top: -24px;
+}
+
+.full-wrapper > * {
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+/* TOPBAR */
+.topbar-clean {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    background: #ffffff;
+    border-radius: 0; /* biar full flat kiri kanan */
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.dropdown-wrapper {
+    position: relative;
+    width: 220px;
+}
+
+.dropdown-wrapper select {
+    width: 100%;
+    padding: 10px 35px 10px 35px;
+    border-radius: 8px;
+    border: none;
+    background: #ffffff;
+    appearance: none;
+}
+
+/* icon kiri */
+.icon-left {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+}
+
+/* icon kanan */
+.icon-right {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    pointer-events: none;
+}
+
+/* HERO */
+.hero-section {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 25px;
+    background: #ffffff;
+    padding: 20px 24px;
+    border-radius: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.btn-export {
+    display: inline-block; 
+    background: #b8322c;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.hero-img {
+    width: 150px; 
+}
+
+.hero-right h1 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.hero-right h2 {
+    margin: 5px 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #b8322c;
+}
+
+.akg-text {
+    font-size: 14px;
+    color: #666;
+}
+
+/* LAYOUT */
+.layout {
+    display: flex;
+    gap: 20px;
+}
+
+.left {
+    flex: 1.2;
+}
+
+.card-ANH .daily-chart-card {
+
+    background: #FFFFFF;
+
+    border-radius: 18px;
+
+    padding: 16px;
+
+    width: 100%;
+
+    max-width: 450px;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+
+    margin-top: 16px;
+}
+
+.card-ANH #dailyChart {
+
+    height: 240px !important;
+    width: 100% !important;
+}
+
+.week-filter-wrapper {
+    margin-top: 18px;
+}
+
+.week-dropdown {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: max-content;
+    background: #F8ECD0;
+    border-radius: 12px;
+    padding: 4px 10px;
+    box-shadow:
+    inset 0 2px 4px rgba(0,0,0,0.08),
+    0 4px 10px rgba(0,0,0,0.08);
+}
+
+.week-dropdown select {
+    appearance: none;
+    border: none;
+    background: transparent;
+    padding: 8px 32px;
+    font-size: 14px;
+    font-weight: 500;
+    outline: none;
+    cursor: pointer;
+}
+
+.week-dropdown .icon-left {
+    width: 18px;
+    position: absolute;
+    left: 10px;
+}
+
+.week-dropdown .icon-right {
+    width: 14px;
+    position: absolute;
+    right: 10px;
+    pointer-events: none;
+}
+
+.card-WNH {
+
+    margin-top: 18px;
+}
+
+.card-WNH .weekly-chart-group {
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 30px;
+}
+
+.card-WNH .weekly-chart-card {
+
+    border-radius: 22px;
+
+    padding: 18px;
+
+    width: 100%;
+
+    max-width: 450px;
+
+    backdrop-filter: blur(10px);
+
+    -webkit-backdrop-filter: blur(10px);
+
+    box-shadow:
+        0 8px 24px rgba(0,0,0,0.08);
+
+    border: 1px solid rgba(255,255,255,0.25);
+}
+
+.card-WNH .weekly-chart-card:nth-child(1) {
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,216,61,0.25),
+            rgba(255,216,61,0.08)
+        );
+}
+
+.card-WNH .weekly-chart-card:nth-child(2) {
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(159,182,8,0.22),
+            rgba(159,182,8,0.08)
+        );
+}
+
+.card-WNH .weekly-chart-card:nth-child(3) {
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(170,43,29,0.22),
+            rgba(170,43,29,0.08)
+        );
+}
+
+.card-WNH canvas {
+
+    height: 200px !important;
+    width: 100% !important;
+}
+
+.right {
+   flex: 1;
+}
+
+.card-reminder {
+
+    width: 100%;
+    max-width: 300px;
+    margin-top: 10px;
+    border-radius: 18px;
+    overflow: hidden;
+    background: #F8ECD0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.reminder-header {
+
+    background: #AA2B1D;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    padding: 14px;
+}
+
+.reminder-body {
+
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px;
+}
+
+.reminder-body img {
+
+    width: 65px;
+    height: auto;
+    object-fit: contain;
+}
+
+.reminder-body p {
+
+    margin: 0;
+    font-size: 11px;
+    line-height: 1.6;
+    font-weight: 500;
+    color: #1F1F1F;
+}
+
+.evaluation-card {
+
+    max-width: 450px;
+    margin-top: 18px;
+    background: #8D8A2D;
+    border-radius: 22px;
+    padding: 24px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.evaluation-section h3 {
+
+    margin: 0 0 14px 0;
+    color: #FFD83D;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.evaluation-section p {
+
+    margin: 0;
+    color: #FFFFFF;
+    font-size: 11px;
+    line-height: 1.7;
+    font-weight: 300;
+    text-align: justify;
+}
+
+.mission-wrapper {
+
+    width: 100%;
+    margin-top: 20px;
+    padding: 0 24px;
+    box-sizing: border-box;
+}
+
+.mission-card {
+
+    margin-top: 20px;
+    background: #F6E8C9;
+    border-radius: 24px;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
+    min-height: 180px;
+    box-sizing: border-box;
+    box-shadow:0 8px 24px rgba(0,0,0,0.08);
+    overflow: hidden;
+}
+
+.mission-img {
+
+    width: 120px;
+    height: auto;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.mission-content {
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.mission-content h3 {
+
+    margin: 0;
+    color: #B8322C;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.mission-content p {
+
+    margin: 0;
+    color: #2A2A2A;
+    font-size: 12px;
+    line-height: 1.9;
+    font-weight: 500;
+    text-align: justify;
+}

@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
     <link rel="stylesheet" href="{{ asset('css/profile-balita.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/statistik-asupan.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/riwayat-statistik.css')}}">
+
     <!-- Google Font: Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -40,18 +43,21 @@
                 </a>
             </li>
 
-           <li>
-                <a href="javascript:void(0)" class="disabled-link">
-                <img src="{{ asset('icons/statistik-icon.svg') }}" class="menu-icon">
-                <span>Statistik Asupan</span>
+           <li class="{{ request()->is('statistik-asupan') ? 'active' : '' }}">
+                <a href="{{ route('statistik.asupan') }}">
+                    <img src="{{ asset('icons/statistik-icon.svg') }}" class="menu-icon">
+                    <span>Statistik Asupan</span>
                 </a>
             </li>
 
-            <li>
-                <a href="javascript:void(0)" class="disabled-link">
-                <img src="{{ asset('icons/riwayat-icon.svg') }}" class="menu-icon">
-                <span>Riwayat Statistik</span>
+            <li class="{{ request()->is('riwayat-statistik') ? 'active' : '' }}">
+                <a href="{{ route('riwayat.statistik') }}">
+                    <img
+                        src="{{ asset('icons/riwayat-icon.svg') }}"class="menu-icon">
+                    <span>Riwayat Statistik</span>
                 </a>
+            </li>
+
            <li class="{{ request()->is('profile-balita') ? 'active' : '' }}">
                 <a href="{{ url('/profile-balita') }}">
                     <img src="{{ asset('icons/setting-icon.svg') }}" class="menu-icon">

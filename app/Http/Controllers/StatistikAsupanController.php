@@ -18,23 +18,26 @@ class StatistikAsupanController extends Controller
     private GeminiService $gemini;
 
     public function __construct(
-    SupabaseService $supabase,
-    NutritionService $nutrition,
-    GeminiService $gemini
+        SupabaseService $supabase,
+        NutritionService $nutrition,
+        GeminiService $gemini
     ) {
         $this->supabase = $supabase;
         $this->nutrition = $nutrition;
         $this->gemini = $gemini;
     }
 
-       public function index(Request $request)
+    public function index(Request $request)
     {
         $monthYear = $request->month_year ?? now()->format('Y-m');
         [$year, $month] = explode('-', $monthYear);
 
         $month = (int) $month;
         $year = (int) $year;
-        $isCurrentMonth = $month == (int) now()->format('m') && $year == (int) now()->format('Y');
+
+        $isCurrentMonth =
+            $month == (int) now()->format('m') &&
+            $year == (int) now()->format('Y');
 
         if (!session()->has('user')) {
             return redirect('/login');
@@ -52,6 +55,7 @@ class StatistikAsupanController extends Controller
 
         // active child
         $activeChild = $this->nutrition->getActiveChild($children);
+
         if (!$activeChild) {
             return back()->with('error', 'Child tidak ditemukan');
         }
@@ -68,50 +72,45 @@ class StatistikAsupanController extends Controller
         $akgDaily = [
             'energy' => $targetEnergy,
             'protein' => $targetProtein,
-            'fat' => $targetFat
+            'fat' => $targetFat,
         ];
 
         // logs
         $monthlyLogs = collect(
-
-        $this->supabase->getMonthlyScanLogsByChild(
-            $activeChildId,
-            $month,
-            $year
+            $this->supabase->getMonthlyScanLogsByChild(
+                $activeChildId,
+                $month,
+                $year
+            )
         )
+            ->map(fn ($item) => (object) $item)
+            ->filter(function ($item) {
+                $scanDate = \Carbon\Carbon::parse($item->scanned_at);
 
-    )
+                return $scanDate->between(
+                    now()->subYear(),
+                    now()
+                );
+            });
 
-    ->map(fn ($item) => (object) $item)
+        $hasScanLogs = $monthlyLogs->isNotEmpty();
 
-    ->filter(function ($item) {
-
-        $scanDate = \Carbon\Carbon::parse(
-            $item->scanned_at
-        );
-
-        return $scanDate->between(
-            now()->subYear(),
-            now()
-        );
-    });
-
+        // report bulan yang sedang dibuka
         $existingReport = DB::connection('pgsql')
-        
             ->table('monthly_reports')
             ->where('child_id', $activeChildId)
-            ->where('report_month', (int) $month)
-            ->where('report_year', (int) $year)
+            ->where('report_month', $month)
+            ->where('report_year', $year)
             ->latest('generated_at')
             ->first();
 
-            $hasReport = $existingReport ? true : false;
+        $hasReport = $existingReport ? true : false;
 
+        // riwayat report selain bulan yang sedang dibuka
         $historyReports = DB::connection('pgsql')
             ->table('monthly_reports')
             ->where('child_id', $activeChildId)
             ->where(function ($query) use ($month, $year) {
-
                 $query->where('report_month', '!=', $month)
                     ->orWhere('report_year', '!=', $year);
             })
@@ -119,9 +118,8 @@ class StatistikAsupanController extends Controller
             ->limit(3)
             ->get();
 
-        // BULAN BERJALAN AKAN MENAMPILKAN  PENDING PAGE
+        // bulan berjalan selalu pending
         if ($isCurrentMonth) {
-
             return view('statistik-asupan', [
                 'pageState' => 'pending',
                 'month' => $month,
@@ -131,23 +129,19 @@ class StatistikAsupanController extends Controller
             ]);
         }
 
-        // HANDLE REPORT EXISTING
+        // bulan lama tanpa scan logs sama sekali tampil empty
+        if (!$hasScanLogs) {
+            return view('statistik-asupan', [
+                'pageState' => 'empty',
+                'month' => $month,
+                'year' => $year,
+                'historyReports' => $historyReports,
+                'hasReport' => false,
+            ]);
+        }
+
+        // kalau report sudah ada dan scan logs juga ada, tampilkan report
         if ($existingReport) {
-
-            if (
-                $existingReport->total_energy == 0 &&
-                $existingReport->total_protein == 0 &&
-                $existingReport->total_fat == 0
-            ) {
-                return view('statistik-asupan', [
-                    'pageState' => 'empty',
-                    'month' => $month,
-                    'year' => $year,
-                    'historyReports' => $historyReports,
-                    'hasReport' => $hasReport,
-                ]);
-            }
-
             return view('statistik-asupan', [
                 'isCurrentMonth' => $isCurrentMonth,
                 'historyReports' => $historyReports,
@@ -191,17 +185,11 @@ class StatistikAsupanController extends Controller
             ]);
         }
 
-        $dailyData =
-            $this->nutrition->groupByDate($monthlyLogs);
+        $dailyData = $this->nutrition->groupByDate($monthlyLogs);
+        $dailyData = $this->nutrition->cleanChartData($dailyData);
 
-        $dailyData =
-            $this->nutrition->cleanChartData($dailyData);
-
-        $weeklyData =
-            $this->nutrition->groupByWeek($dailyData);
-
-        $weeklyData =
-            $this->nutrition->cleanChartData($weeklyData);
+        $weeklyData = $this->nutrition->groupByWeek($dailyData);
+        $weeklyData = $this->nutrition->cleanChartData($weeklyData);
 
         $analysis = $this->nutrition->getMonthlyAnalysis(
             $dailyData,
@@ -211,111 +199,93 @@ class StatistikAsupanController extends Controller
         );
 
         $analysis['allergy'] =
-        $activeChild->allergy ?? 'Tidak ada';
-        try {
+            $activeChild->allergy ?? 'Tidak ada';
 
+        try {
             $aiResponse =
                 $this->gemini->generateMonthlyEvaluation($analysis);
-               
 
             $text =
                 $aiResponse['candidates'][0]['content']['parts'][0]['text']
                 ?? '';
-
         } catch (\Exception $e) {
-
             $text = '';
         }
 
         try {
-
             $missionResponse =
                 $this->gemini->generateMonthlyMission($analysis);
 
             $missionText =
                 $missionResponse['candidates'][0]['content']['parts'][0]['text']
                 ?? '';
-
         } catch (\Exception $e) {
-
             $missionText = '';
         }
 
         preg_match('/===PERJALANAN_NUTRISI===\s*(.*?)\s*===EVALUASI_CELAH===/s', $text, $journey);
-
         preg_match('/===EVALUASI_CELAH===\s*(.*?)\s*===STRATEGI_MENU===/s', $text, $gap);
-
         preg_match('/===STRATEGI_MENU===\s*(.*?)\s*===MOTIVASI_PARENT===/s', $text, $strategy);
-
         preg_match('/===MOTIVASI_PARENT===\s*(.*)/s', $text, $motivation);
 
         preg_match('/===MISSION_TITLE===\s*(.*?)\s*===MISSION_CONTENT===/s', $missionText, $missionTitle);
-
-        preg_match( '/===MISSION_CONTENT===\s*(.*)/s', $missionText, $missionContent);
+        preg_match('/===MISSION_CONTENT===\s*(.*)/s', $missionText, $missionContent);
 
         $alreadyExists = DB::connection('pgsql')
-        ->table('monthly_reports')
-        ->where('child_id', $activeChildId)
-        ->where('report_month', (int) $month)
-        ->where('report_year', (int) $year)
-        ->exists();
-
-    if (!$alreadyExists) {
-
-        DB::connection('pgsql')
             ->table('monthly_reports')
-            ->insert([
+            ->where('child_id', $activeChildId)
+            ->where('report_month', $month)
+            ->where('report_year', $year)
+            ->exists();
 
-                'user_id' => session('user')['id'],
+        if (!$alreadyExists) {
+            DB::connection('pgsql')
+                ->table('monthly_reports')
+                ->insert([
+                    'user_id' => session('user')['id'],
+                    'child_id' => $activeChildId,
 
-                'child_id' => $activeChildId,
+                    'report_month' => $month,
+                    'report_year' => $year,
 
-                'report_month' => $month,
-                'report_year' => $year,
+                    'total_energy' => $analysis['total']['energy'],
+                    'total_protein' => $analysis['total']['protein'],
+                    'total_fat' => $analysis['total']['fat'],
 
-                'total_energy' => $analysis['total']['energy'],
-                'total_protein' => $analysis['total']['protein'],
-                'total_fat' => $analysis['total']['fat'],
+                    'target_energy' => $analysis['needs']['energy'],
+                    'target_protein' => $analysis['needs']['protein'],
+                    'target_fat' => $analysis['needs']['fat'],
 
-                'target_energy' => $analysis['needs']['energy'],
-                'target_protein' => $analysis['needs']['protein'],
-                'target_fat' => $analysis['needs']['fat'],
+                    'energy_percentage' => $analysis['percentage']['energy'],
+                    'protein_percentage' => $analysis['percentage']['protein'],
+                    'fat_percentage' => $analysis['percentage']['fat'],
 
-                'energy_percentage' => $analysis['percentage']['energy'],
-                'protein_percentage' => $analysis['percentage']['protein'],
-                'fat_percentage' => $analysis['percentage']['fat'],
+                    'daily_chart' => json_encode($dailyData),
+                    'weekly_chart' => json_encode($weeklyData),
 
-                'daily_chart' => json_encode($dailyData),
-                'weekly_chart' => json_encode($weeklyData),
+                    'nutrition_journey' => trim($journey[1] ?? ''),
+                    'nutrition_gap' => trim($gap[1] ?? ''),
+                    'next_month_strategy' => trim($strategy[1] ?? ''),
+                    'parent_motivation' => trim($motivation[1] ?? ''),
 
-                'nutrition_journey' => trim($journey[1] ?? ''),
+                    'mission_title' => trim($missionTitle[1] ?? ''),
+                    'mission_content' => trim($missionContent[1] ?? ''),
 
-                'nutrition_gap' => trim($gap[1] ?? ''),
+                    'generated_at' => now(),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+        }
 
-                'next_month_strategy' => trim($strategy[1] ?? ''),
+        $existingReport = DB::connection('pgsql')
+            ->table('monthly_reports')
+            ->where('child_id', $activeChildId)
+            ->where('report_month', $month)
+            ->where('report_year', $year)
+            ->latest('generated_at')
+            ->first();
 
-                'parent_motivation' => trim($motivation[1] ?? ''),
-
-                'mission_title' => trim($missionTitle[1] ?? ''),
-
-                'mission_content' => trim($missionContent[1] ?? ''),
-
-                'generated_at' => now(),
-                'created_at' => now(),
-                'updated_at' => now(),
-
-            ]);
-    }
-
-    $existingReport = DB::connection('pgsql')
-        ->table('monthly_reports')
-        ->where('child_id', $activeChildId)
-        ->where('report_month', (int) $month)
-        ->where('report_year', (int) $year)
-        ->latest('generated_at')
-        ->first();
-
-    $hasReport = $existingReport ? true : false;
+        $hasReport = $existingReport ? true : false;
 
         return view('statistik-asupan', [
             'isCurrentMonth' => $isCurrentMonth,
@@ -342,7 +312,6 @@ class StatistikAsupanController extends Controller
             'targetFat' => $targetFat,
         ]);
     }
-
 
     public function exportPdf(Request $request)
     {
@@ -377,12 +346,12 @@ class StatistikAsupanController extends Controller
         $report = DB::connection('pgsql')
             ->table('monthly_reports')
             ->where('child_id', $activeChild->id)
-            ->where('report_month', (int) $month)
-            ->where('report_year', (int) $year)
+            ->where('report_month', $month)
+            ->where('report_year', $year)
             ->latest('generated_at')
             ->first();
 
-       if (!$report) {
+        if (!$report) {
             return back()->with('error', 'Laporan tidak ditemukan');
         }
 
@@ -407,7 +376,6 @@ class StatistikAsupanController extends Controller
         ];
 
         $html = view('pdf.statistik-asupan-pdf', [
-
             'report' => $report,
             'child' => $activeChild,
             'parent' => $parent,
@@ -422,8 +390,6 @@ class StatistikAsupanController extends Controller
 
             'dailyCharts' => json_decode($request->daily_charts, true),
             'weeklyCharts' => json_decode($request->weekly_charts, true),
-
-
         ])->render();
 
         $pdfPath = storage_path('app/public/laporan-statistik.pdf');
@@ -436,5 +402,4 @@ class StatistikAsupanController extends Controller
 
         return response()->download($pdfPath);
     }
-
 }

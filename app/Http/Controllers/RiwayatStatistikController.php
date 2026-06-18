@@ -2,46 +2,53 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
+use App\Services\SupabaseService;
+use App\Services\NutritionService;
 
 class RiwayatStatistikController extends Controller
 {
-        public function index()
-    {
-       // LOGIN CHECK
-        if (!session()->has('user')) {
+    private SupabaseService $supabase;
+    private NutritionService $nutrition;
 
+    public function __construct(
+        SupabaseService $supabase,
+        NutritionService $nutrition
+    ) {
+        $this->supabase = $supabase;
+        $this->nutrition = $nutrition;
+    }
+
+    public function index()
+    {
+        if (!session()->has('user')) {
             return redirect('/login');
         }
 
-        // ACTIVE CHILD
-        $activeChildId = session('active_child_id');
+        $children = $this->supabase->getChildrenByUser(
+            session('user')['id'],
+            session('access_token')
+        );
 
-        if (!$activeChildId) {
-
-            return back()->with(
-                'error',
-                'Child tidak ditemukan'
-            );
+        if ($children->isEmpty()) {
+            return back()->with('error', 'Data anak tidak ditemukan');
         }
 
-        // REPORTS
+        $activeChild = $this->nutrition->getActiveChild($children);
+
+        if (!$activeChild) {
+            return back()->with('error', 'Child tidak ditemukan');
+        }
+
         $reports = DB::connection('pgsql')
             ->table('monthly_reports')
-            ->where('child_id', $activeChildId)
+            ->where('child_id', $activeChild->id)
             ->latest('generated_at')
             ->get();
 
-        return view(
-            'riwayat-statistik',
-            [
-
-                'reports' => $reports,
-
-            ]
-        );
+        return view('riwayat-statistik', [
+            'reports' => $reports,
+            'activeChild' => $activeChild,
+        ]);
     }
 }
-

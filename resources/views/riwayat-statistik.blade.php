@@ -120,7 +120,7 @@
                 <div class="empty-history">
 
                     <img
-                        src="{{ asset('images/statistik/empty-report.png') }}"
+                        src="{{ asset('images/empty-riwayat.svg') }}"
                         class="empty-img"
                     >
 

@@ -54,13 +54,27 @@
                 </div>
 
             </form>
-        </div>
+            </div>
 
-        <div class="hello-text">
+            @php
+        $name = $activeChild->name;
 
-            Hallo, {{ $activeChild->name }}
+        if (strlen($name) > 12 && str_contains($name, ' ')) {
+            $parts = explode(' ', $name);
+            $lastWord = array_pop($parts);
+            $firstPart = implode(' ', $parts);
+        } else {
+            $firstPart = $name;
+            $lastWord = null;
+        }
+    @endphp
 
-        </div>
+    <div class="hello-text">
+        Hallo, {{ $firstPart }}
+        @if($lastWord)
+            <br>{{ $lastWord }}
+        @endif
+    </div>
 
     </div>
 

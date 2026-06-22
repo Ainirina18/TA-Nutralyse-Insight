@@ -2,7 +2,7 @@
 .layout {
     display: flex;
     min-height: 100vh;
-    align-items: flex-start; /* penting biar sticky work */
+    align-items: flex-start; 
 }
 
 /* ===== SIDEBAR ===== */
@@ -17,7 +17,7 @@
 
     box-shadow: 4px 0 12px rgba(0, 0, 0, 0.12);
 
-    position: fixed;   /* 🔥 GANTI INI */
+    position: fixed;  
     top: 0;
     left: 0;
     height: 100vh;
@@ -45,12 +45,12 @@
 .sidebar-menu {
     display: flex;
     flex-direction: column;
-    gap: 6px; /* 🔥 ini kunci jarak antar menu */
+    gap: 6px;
     padding: 0 10px;
 }
 
 .sidebar-menu li {
-    margin: 0; /* hapus margin lama */
+    margin: 0; 
     display: flex;
 }
 
@@ -59,7 +59,7 @@
     align-items: center;
     gap: 10px;
 
-    padding: 8px 12px; /* 🔥 lebih slim */
+    padding: 8px 12px;
     font-size: 13px;
 
     border-radius: 10px;
@@ -76,7 +76,7 @@
 }
 
 .sidebar-menu li a span {
-    white-space: nowrap; /* 🔥 biar ga turun */
+    white-space: nowrap; 
 }
 /* ===== FOOTER ===== */
 .sidebar-footer {
@@ -90,8 +90,23 @@
 
 /* ===== MAIN CONTENT ===== */
 .main-content {
-    margin-left: 200px; /* 🔥 biar ga ketiban sidebar */
+    margin-left: 200px;
     flex: 1;
     background: #f5f6f8;
     padding: 30px;
+}
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+
+    .sidebar {
+        display: none;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 15px;
+        width: 100%;
+    }
+
 }

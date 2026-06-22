@@ -532,3 +532,103 @@
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.5);
 }
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+
+    .dashboard-container {
+        grid-template-columns: 1fr;
+        padding: 10px;
+    }
+
+   .dashboard-topbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+    .child-dropdown{
+    width: 122px;
+}
+
+ .hello-text{
+        max-width: 120px;
+        white-space: normal;
+        line-height: 1.3;
+    }
+
+    /* semua card jadi 1 kolom */
+
+    .card-ANMI,
+    .card-LMHI,
+    .card-SNB,
+    .card-weekly-chart,
+    .card-TSKH {
+        grid-column: auto !important;
+        grid-row: auto !important;
+        width: 100%;
+    }
+
+    .nutrition-wrapper {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+    .nutrition-item {
+    width: 90px;
+    margin: 0 auto;
+}
+
+.nutrition-item canvas {
+    width: 80px !important;
+    height: 80px !important;
+}
+
+    .lmhi-layout {
+        flex-direction: column;
+    }
+
+    .lmhi-chart canvas {
+        width: 140px !important;
+        height: 140px !important;
+    }
+
+    .SNB-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .SNB-text {
+        text-align: left;
+    }
+
+    .nutrition-filter {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .filter-btn {
+        padding: 10px 20px;
+    }
+
+    .TSKH-header,
+    .TSKH-row {
+        font-size: 11px;
+    }
+
+    .TSKH-footer {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .card-TSKH {
+        transform: none;
+    }
+
+}

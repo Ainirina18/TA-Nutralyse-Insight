@@ -291,41 +291,41 @@ class NutritionService
 
     // cleansing data chart sebelum di PDF
     public function cleanChartData($data)
-{
-    \Log::info('RAW DATA', [
-        'data' => $data
-    ]);
+    {
+        \Log::info('RAW DATA', [
+            'data' => $data
+        ]);
 
-    $cleaned = collect($data)->map(function ($item) {
+        $cleaned = collect($data)->map(function ($item) {
 
-        return [
+            return [
 
-            'date' => $item['date'] ?? null,
+                'date' => $item['date'] ?? null,
 
-            'energy' => (int) preg_replace(
-                '/[^0-9]/',
-                '',
-                $item['energy'] ?? 0
-            ),
+                'energy' => (int) preg_replace(
+                    '/[^0-9]/',
+                    '',
+                    $item['energy'] ?? 0
+                ),
 
-            'protein' => (int) preg_replace(
-                '/[^0-9]/',
-                '',
-                $item['protein'] ?? 0
-            ),
+                'protein' => (int) preg_replace(
+                    '/[^0-9]/',
+                    '',
+                    $item['protein'] ?? 0
+                ),
 
-            'fat' => (int) preg_replace(
-                '/[^0-9]/',
-                '',
-                $item['fat'] ?? 0
-            ),
-        ];
-    })->toArray();
+                'fat' => (int) preg_replace(
+                    '/[^0-9]/',
+                    '',
+                    $item['fat'] ?? 0
+                ),
+            ];
+        })->toArray();
 
-    \Log::info('CLEANSED RESULT', [
-        'data' => $cleaned
-    ]);
+        \Log::info('CLEANSED RESULT', [
+            'data' => $cleaned
+        ]);
 
-    return $cleaned;
-}
+        return $cleaned;
+    }
 }

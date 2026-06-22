@@ -142,7 +142,7 @@ class StatistikAsupanController extends Controller
 
         // kalau report sudah ada dan scan logs juga ada, tampilkan report
         if ($existingReport) {
-            return view('statistik-asupan', [
+                return view('statistik-asupan', [
                 'isCurrentMonth' => $isCurrentMonth,
                 'historyReports' => $historyReports,
                 'hasReport' => $hasReport,
@@ -189,7 +189,7 @@ class StatistikAsupanController extends Controller
         $dailyData = $this->nutrition->cleanChartData($dailyData);
 
         $weeklyData = $this->nutrition->groupByWeek($dailyData);
-        $weeklyData = $this->nutrition->cleanChartData($weeklyData);
+       
 
         $analysis = $this->nutrition->getMonthlyAnalysis(
             $dailyData,

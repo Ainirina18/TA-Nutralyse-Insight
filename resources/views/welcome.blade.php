@@ -53,22 +53,6 @@
 
         </div>
 
-        <nav class="nav-menu">
-
-            <a href="#">
-                Beranda
-            </a>
-
-            <a href="#">
-                Tentang Sistem
-            </a>
-
-            <a href="#">
-                Fitur
-            </a>
-
-        </nav>
-
         <a
             href="/login"
             class="dashboard-btn"

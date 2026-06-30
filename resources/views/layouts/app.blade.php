@@ -6,6 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Nutralyse-Insight') }}</title>
+    <link rel="icon" href="{{ asset('favicon.ico') }}">
 
     <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">

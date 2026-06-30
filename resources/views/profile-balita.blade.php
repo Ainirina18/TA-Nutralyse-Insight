@@ -1,6 +1,6 @@
 <x-app-layout>
 
-    <div class="p-6 space-y-6">
+    <div class="px-3 pt-2 pb-6 space-y-4">
 
         @php
             $child = $activeChild ?? null;
@@ -8,6 +8,17 @@
 
         @if($child)
 
+        <x-mobile-topbar>
+
+    <div class="topbar-left">
+
+        <h2 class="page-title">
+            Profil Balita
+        </h2>
+
+    </div>
+
+</x-mobile-topbar>
         <!-- HEADER -->
         <div class="header">
             <div class="profile-img">

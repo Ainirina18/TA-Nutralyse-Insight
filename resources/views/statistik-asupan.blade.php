@@ -10,49 +10,68 @@
 
         @else
         
-        <x-slot name="header">
-            <h2 class="page-title">Statistik Asupan</h2>
-        </x-slot>
+       <x-mobile-topbar>
 
-        <div class="full-wrapper">
+    <div class="topbar-left">
 
-            {{-- 🔥 TOPBAR --}}
-            <div class="topbar-clean">
+        <form method="GET" action="{{ route('statistik.asupan') }}">
 
-            <form method="GET" action="{{ route('statistik.asupan') }}">
-            
-                @include('components.widgets.month-dropdown')
+            @include('components.widgets.month-dropdown')
 
-                </form>
+        </form>
 
-                <form
-                    action="{{ route('statistik.export.pdf') }}"
-                    method="POST"
-                    id="pdfForm">
+    </div>
 
-                    @csrf
+    <div class="topbar-right">
 
-                    <input
-                        type="hidden"
-                        name="month_year"
-                        value="{{ $year.'-'.$month }}">
+        <form
+            action="{{ route('statistik.export.pdf') }}"
+            method="POST"
+            id="pdfForm">
 
-                    <input type="hidden" name="energy_chart" id="energy_chart">
+            @csrf
 
-                    <input type="hidden" name="protein_chart" id="protein_chart">
+            <input
+                type="hidden"
+                name="month_year"
+                value="{{ $year.'-'.$month }}">
 
-                    <input type="hidden" name="fat_chart" id="fat_chart">
+            <input
+                type="hidden"
+                name="energy_chart"
+                id="energy_chart">
 
-                    <input type="hidden" name="weekly_charts" id="weekly_charts">
+            <input
+                type="hidden"
+                name="protein_chart"
+                id="protein_chart">
 
-                    <input type="hidden" name="daily_charts" id="daily_charts">
+            <input
+                type="hidden"
+                name="fat_chart"
+                id="fat_chart">
 
-                    <button type="submit" class="btn-export">
-                        Export PDF
-                    </button>
+            <input
+                type="hidden"
+                name="weekly_charts"
+                id="weekly_charts">
 
-                </form>
-            </div>
+            <input
+                type="hidden"
+                name="daily_charts"
+                id="daily_charts">
+
+            <button
+                type="submit"
+                class="btn-export">
+                Export PDF
+            </button>
+
+        </form>
+
+    </div>
+
+</x-mobile-topbar>
 
             {{-- 🔥 HERO / HEADER UTAMA --}}
             <div class="hero-section">
@@ -130,6 +149,12 @@
                                 <canvas id="fatChart"></canvas>
                             </div>
 
+                        </div>
+
+                        <div class="chart-dots">
+                            <span class="dot active"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
                         </div>
 
                     </div>
@@ -259,6 +284,35 @@
                 this.submit();
             });
 
+        </script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+
+                const container = document.querySelector('.weekly-chart-group');
+                const cards = document.querySelectorAll('.weekly-chart-card');
+
+                if (!container || cards.length === 0) return;
+
+                const observer = new IntersectionObserver((entries) => {
+
+                    entries.forEach(entry => {
+
+                        if (entry.isIntersecting) {
+
+                            cards.forEach(card => card.classList.remove('active-card'));
+
+                            entry.target.classList.add('active-card');
+                        }
+                    });
+
+                }, {
+                    root: container,
+                    threshold: 0.6 // makin besar = makin ketat fokusnya
+                });
+
+                cards.forEach(card => observer.observe(card));
+            });
         </script>
 
     @endif

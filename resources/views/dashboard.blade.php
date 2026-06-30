@@ -6,77 +6,65 @@
         </h2>
     </x-slot>
 
-    {{-- TOPBAR --}}
-    <div class="dashboard-topbar">
+ <x-mobile-topbar>
 
-        <div class="dropdown-group">
+    {{-- LEFT / CENTER (dropdown) --}}
+    <div class="topbar-left">
+        <form method="POST" action="{{ route('dashboard.set-child') }}">
+            @csrf
 
-            <form
-                method="POST"
-                action="{{ route('dashboard.set-child') }}">
+            <div class="dropdown-wrapper">
+                <select
+                    name="child_id"
+                    onchange="this.form.submit()"
+                    class="child-dropdown"
+                >
+                    <option disabled hidden>Pilih Ananda</option>
 
-                @csrf
-
-                <div class="dropdown-wrapper">
-
-                    <select
-                        name="child_id"
-                        onchange="this.form.submit()"
-                        class="child-dropdown"
-                    >
-
-                        <option disabled hidden>
-
-                            Pilih Ananda
-
+                    @foreach($children as $child)
+                        <option
+                            value="{{ $child->id }}"
+                            {{ $activeChildId == $child->id ? 'selected' : '' }}
+                        >
+                            {{ $child->name }}
                         </option>
+                    @endforeach
+                </select>
 
-                        @foreach($children as $child)
-
-                            <option
-                                value="{{ $child->id }}"
-                                {{ $activeChildId == $child->id ? 'selected' : '' }}
-                            >
-
-                                {{ $child->name }}
-
-                            </option>
-
-                        @endforeach
-
-                    </select>
-
-                    <img
-                        src="{{ asset('icons/dropdown.svg') }}"
-                        class="dropdown-icon-right"
-                    >
-
-                </div>
-
-            </form>
+                <img
+                    src="{{ asset('icons/dropdown.svg') }}"
+                    class="dropdown-icon-right"
+                >
             </div>
-
-            @php
-        $name = $activeChild->name;
-
-        if (strlen($name) > 12 && str_contains($name, ' ')) {
-            $parts = explode(' ', $name);
-            $lastWord = array_pop($parts);
-            $firstPart = implode(' ', $parts);
-        } else {
-            $firstPart = $name;
-            $lastWord = null;
-        }
-    @endphp
-
-    <div class="hello-text">
-        Hallo, {{ $firstPart }}
-        @if($lastWord)
-            <br>{{ $lastWord }}
-        @endif
+        </form>
     </div>
 
+    {{-- RIGHT (hello text) --}}
+    <div class="topbar-right">
+
+        @php
+            $name = $activeChild->name;
+
+            if (strlen($name) > 12 && str_contains($name, ' ')) {
+                $parts = explode(' ', $name);
+                $lastWord = array_pop($parts);
+                $firstPart = implode(' ', $parts);
+            } else {
+                $firstPart = $name;
+                $lastWord = null;
+            }
+        @endphp
+
+        <div class="hello-text">
+            Hallo, {{ $firstPart }}
+            @if($lastWord)
+                <br>{{ $lastWord }}
+            @endif
+        </div>
+
     </div>
+
+</x-mobile-topbar>
 
         <div class="dashboard-container">
 

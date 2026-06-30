@@ -336,3 +336,44 @@ async function generateDailyChartsForPdf() {
 
     return charts;
 }
+
+/* ===========================================
+   MOBILE ACCORDION
+=========================================== */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    if(window.innerWidth > 768) return;
+
+    const items = document.querySelectorAll(".evaluation-section");
+
+    items.forEach((item,index)=>{
+
+        const title=item.querySelector("h3");
+
+        if(index===0){
+
+            item.classList.add("active");
+
+        }
+
+        title.addEventListener("click",()=>{
+
+            if(item.classList.contains("active")){
+
+                item.classList.remove("active");
+
+                return;
+
+            }
+
+            items.forEach(i=>i.classList.remove("active"));
+
+            item.classList.add("active");
+
+        });
+
+    });
+
+});
+

@@ -1,8 +1,9 @@
   <link rel="stylesheet" href="{{ asset('css/pending-statistik.css') }}">
-<div class="pending-wrapper -mx-6 -mt-6">
+<div class="pending-wrapper ">
 
-    {{-- 🔥 TOPBAR --}}
-    <div class="topbar-clean">
+   <x-mobile-topbar>
+
+    <div class="topbar-left">
 
         <form method="GET" action="{{ route('statistik.asupan') }}">
 
@@ -10,7 +11,10 @@
 
         </form>
 
-        {{-- DISABLED EXPORT --}}
+    </div>
+
+    <div class="topbar-right">
+
         <button
             class="btn-export disabled"
             disabled
@@ -19,6 +23,8 @@
         </button>
 
     </div>
+
+</x-mobile-topbar>
 
     {{-- HERO --}}
     <div class="pending-hero">

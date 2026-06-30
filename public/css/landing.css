@@ -365,3 +365,246 @@ body{
 ::-webkit-scrollbar-thumb:hover{
     background: rgba(255,255,255,0.38);
 }
+
+/* RESPONSIVE */
+/* ================= TABLET ================= */
+
+@media (max-width:1024px){
+
+.navbar{
+    padding:24px 40px;
+}
+
+.hero-section{
+    padding:40px;
+    gap:40px;
+}
+
+.hero-left h1{
+    font-size:42px;
+}
+
+.hero-left p{
+    width:100%;
+    font-size:17px;
+}
+
+.dashboard-preview{
+    width:110%;
+}
+
+.ecosystem-section{
+    padding:90px 40px;
+}
+
+.ecosystem-section h2{
+    font-size:42px;
+}
+
+.ecosystem-desc{
+    width:75%;
+}
+
+}
+
+
+/* ================= MOBILE TABLET ================= */
+
+@media (max-width:768px){
+
+.navbar{
+    padding:20px;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:18px;
+}
+
+/* Hilangkan tombol Dashboard */
+.dashboard-btn{
+    display:none;
+}
+
+.logo-wrapper{
+    justify-content:center;
+}
+
+.nav-menu{
+    width:100%;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:18px;
+}
+
+.hero-section{
+    flex-direction:column;
+    text-align:center;
+    padding:40px 24px 70px;
+}
+
+.hero-left{
+    width:100%;
+}
+
+.hero-right{
+    width:100%;
+    margin-top:20px;
+}
+
+.hero-left h1{
+    font-size:42px;
+}
+
+.hero-left p{
+    width:100%;
+    margin:auto auto 35px;
+    font-size:17px;
+}
+
+.dashboard-preview{
+    width:100%;
+    max-width:650px;
+}
+
+.hero-btn{
+    justify-content:center;
+}
+
+.ecosystem-section{
+    padding:80px 24px;
+}
+
+.ecosystem-section h2{
+    font-size:40px;
+}
+
+.ecosystem-desc{
+    width:100%;
+    font-size:16px;
+}
+
+/* Card menjadi vertikal */
+.ecosystem-wrapper{
+    flex-direction:column;
+    align-items:center;
+    gap:45px;
+}
+
+.ecosystem-card{
+    width:100%;
+    max-width:420px;
+}
+
+.phone{
+    max-width:240px;
+}
+
+.web{
+    max-width:100%;
+}
+
+/* ===== HILANGKAN BAGIAN TENGAH ===== */
+
+.sync-center{
+    display:none;
+}
+
+}
+
+
+/* ================= PHONE ================= */
+
+@media (max-width:576px){
+
+.navbar{
+    padding:18px;
+}
+
+.logo-img{
+    width:42px;
+}
+
+.logo-text h2{
+    font-size:22px;
+}
+
+.logo-text span{
+    font-size:10px;
+    letter-spacing:3px;
+}
+
+.nav-menu{
+    gap:14px;
+}
+
+.nav-menu a{
+    font-size:14px;
+}
+
+.hero-section{
+    padding:25px 20px 60px;
+}
+
+.hero-left h1{
+    font-size:34px;
+}
+
+.hero-left p{
+    font-size:15px;
+    line-height:1.8;
+}
+
+.hero-btn{
+    width:100%;
+    justify-content:center;
+}
+
+.dashboard-preview{
+    width:100%;
+}
+
+.section-badge{
+    font-size:11px;
+    padding:10px 18px;
+}
+
+.ecosystem-section h2{
+    font-size:32px;
+}
+
+.ecosystem-desc{
+    font-size:15px;
+}
+
+.ecosystem-label{
+    font-size:13px;
+}
+
+.ecosystem-card p{
+    font-size:15px;
+}
+
+}
+
+
+/* ================= SMALL PHONE ================= */
+
+@media (max-width:390px){
+
+.hero-left h1{
+    font-size:29px;
+}
+
+.hero-left p{
+    font-size:14px;
+}
+
+.ecosystem-section h2{
+    font-size:28px;
+}
+
+.hero-btn{
+    padding:16px;
+}
+
+}

@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{{ asset('css/profile-balita.css')}}">
     <link rel="stylesheet" href="{{ asset('css/statistik-asupan.css')}}">
     <link rel="stylesheet" href="{{ asset('css/riwayat-statistik.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/mobile-topbar.css') }}">
 
     <!-- Google Font: Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,7 +29,7 @@
 <div class="layout">
 
     <!-- ===== SIDEBAR ===== -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
 
         <div class="sidebar-logo">
             <img src="{{ asset('images/logo.png') }}" class="logo-img">
@@ -74,6 +75,8 @@
 
     </aside>
 
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
 
     <!-- ===== MAIN CONTENT ===== -->
     <div class="main-content">
@@ -82,5 +85,30 @@
 
 </div>
 
+<script>
+
+const hamburger=document.getElementById("hamburgerBtn");
+const sidebar=document.getElementById("sidebar");
+const overlay=document.getElementById("sidebarOverlay");
+
+if(hamburger){
+
+    hamburger.addEventListener("click",()=>{
+
+        sidebar.classList.toggle("show");
+        overlay.classList.toggle("show");
+
+    });
+
+}
+
+overlay.addEventListener("click",()=>{
+
+    sidebar.classList.remove("show");
+    overlay.classList.remove("show");
+
+});
+
+</script>
 </body>
 </html>

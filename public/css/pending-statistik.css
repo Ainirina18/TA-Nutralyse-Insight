@@ -2,21 +2,57 @@
 
 .pending-wrapper{
     width: 100%;
-
     max-width: 100%;
-
     margin: 0;
-
-    padding-left: 24px;
-    padding-right: 24px;
-
-    margin-left: -24px;   
-    margin-right: -24px;  
-    margin-top: -24px;
-
     box-sizing: border-box;
 }
 
+/* ================= TOPBAR CONTENT ================= */
+
+.topbar-left,
+.topbar-right{
+    display:flex;
+    align-items:center;
+}
+
+.topbar-left{
+    flex:0 0 auto;
+}
+
+.topbar-right{
+    margin-left:auto;
+}
+
+/* ================= EXPORT BUTTON ================= */
+
+.btn-export{
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:12px 22px;
+
+    border:none;
+    border-radius:14px;
+
+    font-size:14px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.btn-export.disabled{
+
+    background:#E5E7EB;
+    color:#9CA3AF;
+
+    cursor:not-allowed;
+
+    opacity:.9;
+}
 
 /* ================= HERO ================= */
 
@@ -399,4 +435,339 @@
 
 .empty-btn:hover{
     background: #F5E1DD;
+}
+
+/* ================================================= */
+/* ================= RESPONSIVE ===================== */
+/* ================================================= */
+
+/* ================= GLOBAL FIX ================= */
+
+*{
+    box-sizing:border-box;
+}
+
+html,
+body{
+    overflow-x:hidden;
+}
+
+
+/* ================================================= */
+/* ================= TABLET ========================= */
+/* ================================================= */
+
+@media (max-width:1024px){
+
+    .history-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+
+}
+
+
+/* ================================================= */
+/* ================= MOBILE ========================= */
+/* ================================================= */
+
+@media (max-width:768px){
+
+    /* ================= TOPBAR ================= */
+
+
+    .topbar-left{
+
+        flex:1;
+        min-width:0;
+
+    }
+
+    .topbar-left form{
+
+        width:100%;
+
+    }
+
+    .topbar-right{
+
+        margin-left:auto;
+
+    }
+
+    .month-dropdown{
+
+        width:100%;
+        max-width:170px;
+
+        font-size:12px;
+
+    }
+
+    .btn-export{
+
+        padding:10px 16px;
+
+        font-size:12px;
+
+        white-space:nowrap;
+
+    }
+
+    /* ================= HERO ================= */
+
+    .pending-hero{
+
+        flex-direction:column;
+
+        align-items:center;
+
+        text-align:center;
+
+        gap:12px;
+
+        padding:6px 12px;
+
+    }
+
+    .pending-hero .hero-img{
+
+        width:80px;
+
+    }
+
+    .hero-text{
+
+        line-height:1.3;
+
+    }
+
+    .hero-text h1{
+
+        font-size:20px;
+
+        margin:0;
+
+    }
+
+    .hero-text h2{
+
+        font-size:16px;
+
+        margin:0;
+
+    }
+
+    /* ================= MAIN CARD ================= */
+
+    .pending-card{
+
+        flex-direction:column;
+
+        align-items:center;
+
+        text-align:center;
+
+        gap:18px;
+
+        padding:20px 20px 100px;
+
+        border-radius:16px;
+
+    }
+
+    .pending-left,
+    .pending-right{
+
+        width:100%;
+
+    }
+
+    .pending-img{
+
+        max-width:200px;
+
+    }
+
+    /* ================= HISTORY ================= */
+
+    .history-grid{
+
+        grid-template-columns:1fr;
+
+        gap:12px;
+
+    }
+
+    .history-card{
+
+        padding:12px 14px;
+
+        border-radius:14px;
+
+    }
+
+    .history-top{
+
+        gap:10px;
+
+        margin-bottom:10px;
+
+    }
+
+    .history-info h3{
+
+        font-size:16px;
+
+        margin-bottom:4px;
+
+    }
+
+    .history-info p{
+
+        font-size:13px;
+
+        margin:2px 0;
+
+    }
+
+    /* ================= BOTTOM INFO ================= */
+
+    .bottom-info-card{
+
+        padding:12px 14px;
+
+        gap:10px;
+
+        border-radius:12px;
+
+    }
+
+    .bottom-info-card p,
+    .bottom-info-card span{
+
+        font-size:10px;
+
+        line-height:1.3;
+
+    }
+
+    /* ================= EMPTY ================= */
+
+    .empty-img{
+
+        width:200px;
+
+    }
+
+    .empty-content{
+
+        padding:0 12px;
+
+    }
+
+    .empty-content h3{
+
+        font-size:18px;
+
+    }
+
+    .empty-content p{
+
+        font-size:13px;
+
+        padding:0 10px;
+
+    }
+
+    .empty-btn{
+
+        width:100%;
+
+        max-width:260px;
+
+    }
+
+}
+
+
+/* ================================================= */
+/* ================= SMALL MOBILE =================== */
+/* ================================================= */
+
+@media (max-width:480px){
+
+    /* ================= TOPBAR ================= */
+
+    .month-dropdown{
+
+        max-width:140px;
+
+        font-size:11px;
+
+    }
+
+    .btn-export{
+
+        padding:8px 12px;
+
+        font-size:11px;
+
+    }
+
+    /* ================= REMINDER ================= */
+
+    .pending-reminder{
+
+        flex-direction:row;
+
+        left:16px;
+        right:16px;
+
+        font-size:12px;
+
+    }
+
+    /* ================= HISTORY ================= */
+
+    .history-card{
+
+        padding:10px 12px;
+
+        border-radius:12px;
+
+    }
+
+    .history-top{
+
+        flex-direction:column;
+
+        align-items:center;
+
+        text-align:center;
+
+    }
+
+    .history-info{
+
+        align-items:center;
+
+    }
+
+}
+
+
+/* ================================================= */
+/* ================= HOVER ========================== */
+/* ================================================= */
+
+@media (hover:hover){
+
+    .history-card:hover{
+
+        transform:translateY(-4px);
+
+        transition:.2s ease;
+
+    }
+
 }

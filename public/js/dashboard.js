@@ -53,15 +53,24 @@ window.createDonutChart = function(id, value, max, color, title) {
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
 
-                // 🔥 VALUE (atas)
-                ctx.font = '600 16px Arial';
-                ctx.fillStyle = '#000';
-                ctx.fillText(value, x, y - 8);
+               // Responsive font
+                const isMobile = window.innerWidth <= 768;
 
-                // 🔥 UNIT (bawah)
-                ctx.font = '600 13px Arial';
+                // VALUE
+                ctx.font = isMobile
+                    ? '600 11px Poppins'
+                    : '600 16px Poppins';
+
                 ctx.fillStyle = '#000';
-                ctx.fillText(title, x, y + 10);
+                ctx.fillText(value, x, isMobile ? y - 5 : y - 8);
+
+                // UNIT
+                ctx.font = isMobile
+                    ? '500 9px Poppins'
+                    : '600 13px Poppins';
+
+                ctx.fillStyle = 'rgba(0,0,0,.75)';
+                ctx.fillText(title, x, isMobile ? y + 8 : y + 10);
 
                 ctx.font = '600 18px Arial'; // angka lebih dominan
                 ctx.font = '500 12px Arial'; // unit lebih kecil

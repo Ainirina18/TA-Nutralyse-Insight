@@ -6,59 +6,38 @@
     padding: 20px;
 }
 
-/* ================= TOPBAR ================= */
-
-.dashboard-topbar{
-    background: #fff;
-
-    padding: 14px 20px;
-
-    border-radius: 18px;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-
-    margin-bottom: 20px;
-}
-
-/* ===== DROPDOWN ===== */
-
-.dropdown-wrapper{
-    position: relative;
-
+.topbar-left,
+.topbar-right{
     display: flex;
     align-items: center;
 }
 
-.child-dropdown{
-    width: 220px;
+/* dorong kanan text ke ujung */
+.topbar-right{
+    margin-left: auto;
+}
 
-    padding: 12px 42px 12px 16px;
+/* biar dropdown gak ketarik */
+.topbar-left{
+    flex: 0 0 auto;
+}
 
-    border-radius: 14px;
-
-    border: 1px solid #D7DCE2;
-
-    background: #fff;
-
-    font-size: 14px;
+/* hello text tetap rapi */
+.hello-text{
+    font-size: 16px;
     font-weight: 500;
-
-    color: #444;
-
-    appearance: none;
-    outline: none;
-
-    cursor: pointer;
+    color: #222;
+    text-align: right;
+    line-height: 1.2;
+    white-space: nowrap;
 }
 
 .dropdown-icon-right{
     position: absolute;
 
     right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
 
     width: 14px;
     height: 14px;
@@ -66,14 +45,7 @@
     pointer-events: none;
 }
 
-/* ===== HELLO ===== */
 
-.hello-text{
-    font-size: 16px;
-    font-weight: 500;
-
-    color: #222;
-}
 /* ================= CARD GLOBAL ================= */
 
 .card {
@@ -533,102 +505,310 @@
     background: rgba(255, 255, 255, 0.5);
 }
 
-/* ================= MOBILE ================= */
 
-@media (max-width: 768px) {
+/* ================================================= */
+/* ================= TABLET ======================== */
+/* ================================================= */
 
-    .dashboard-container {
-        grid-template-columns: 1fr;
-        padding: 10px;
+@media (max-width:1024px){
+
+    .dashboard-container{
+        grid-template-columns:1fr;
+        gap:18px;
+        padding:0;
     }
-
-   .dashboard-topbar{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: nowrap;
-}
-    .child-dropdown{
-    width: 122px;
-}
-
- .hello-text{
-        max-width: 120px;
-        white-space: normal;
-        line-height: 1.3;
-    }
-
-    /* semua card jadi 1 kolom */
 
     .card-ANMI,
     .card-LMHI,
     .card-SNB,
     .card-weekly-chart,
-    .card-TSKH {
-        grid-column: auto !important;
-        grid-row: auto !important;
-        width: 100%;
+    .card-TSKH{
+        width:100%;
+        max-width:100%;
+        box-sizing:border-box;
     }
 
-    .nutrition-wrapper {
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
+    .card-LMHI,
+    .card-TSKH{
+        transform:none;
+    }
 }
 
-    .nutrition-item {
-    width: 90px;
-    margin: 0 auto;
-}
 
-.nutrition-item canvas {
-    width: 80px !important;
-    height: 80px !important;
-}
+/* ================================================= */
+/* ================= MOBILE ======================== */
+/* ================================================= */
 
-    .lmhi-layout {
-        flex-direction: column;
+@media (max-width:768px){
+
+    /* GRID */
+    .dashboard-container{
+        display:grid;
+        grid-template-columns:minmax(0,1fr);
+        gap:14px;
+        padding:0;
     }
 
-    .lmhi-chart canvas {
-        width: 140px !important;
-        height: 140px !important;
+    /* CARD */
+    .card-ANMI,
+    .card-LMHI,
+    .card-SNB,
+    .card-weekly-chart,
+    .card-TSKH{
+
+        grid-column:auto;
+        grid-row:auto;
+
+        width:100%;
+        max-width:100%;
+
+        transform:none;
+
+        overflow:hidden;
+
+        box-sizing:border-box;
     }
 
-    .SNB-content {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
+    /* ================= ANMI ================= */
+
+    .nutrition-wrapper{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        flex-wrap:wrap;
+        gap:12px;
     }
 
-    .SNB-text {
-        text-align: left;
+    .nutrition-item{
+        width:70px;
+        flex:0 0 70px;
     }
 
-    .nutrition-filter {
-        width: 100%;
-        flex-wrap: wrap;
-        justify-content: center;
+    .nutrition-item p{
+        font-size:12px;
     }
 
-    .filter-btn {
-        padding: 10px 20px;
+    .chart-container,
+    .nutrition-item canvas{
+        width:65px !important;
+        height:65px !important;
+    }
+
+    /* ================= LMHI ================= */
+
+    .lmhi-layout{
+        flex-direction:column;
+    }
+
+    .lmhi-chart canvas{
+        width:140px !important;
+        height:140px !important;
+    }
+
+    .lmhi-list{
+        width:100%;
+        max-height:none;
+    }
+
+    .empty-img{
+        width:100px;
+    }
+
+    /* ================= SNB ================= */
+
+    .SNB-content{
+        flex-direction:column;
+        align-items:center;
+    }
+
+    .SNB-icon{
+        width:80px;
+        height:80px;
+    }
+
+    .SNB-text{
+        text-align:left;
+        font-size:11px;
+        line-height:1.6;
+    }
+
+    /* ================= FILTER ================= */
+
+    .nutrition-filter{
+        width:100%;
+        justify-content:center;
+        flex-wrap:wrap;
+    }
+
+    .filter-btn{
+        flex:1;
+        min-width:80px;
+        padding:10px;
+        font-size:12px;
+    }
+
+    /* ================= WEEKLY ================= */
+
+    .weekly-chart{
+        height:220px;
+    }
+
+    /* ================= TABLE ================= */
+
+    .TSKH-table{
+        overflow-x:auto;
+        -webkit-overflow-scrolling:touch;
     }
 
     .TSKH-header,
-    .TSKH-row {
+    .TSKH-row{
+        min-width:360px;
+    }
+
+    .TSKH-footer{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:12px;
+    }
+
+    .footer-text{
+        width:100%;
+    }
+}
+
+
+/* ================================================= */
+/* ================= PHONE ========================= */
+/* ================================================= */
+
+@media (max-width:576px){
+
+    .card{
+        padding:16px;
+    }
+
+    .card h3{
+        font-size:16px;
+    }
+
+    .lmhi-chart canvas{
+        width:125px !important;
+        height:125px !important;
+    }
+
+    .nutrition-item{
+        width:65px;
+        flex:0 0 65px;
+    }
+
+    .nutrition-item p{
+        font-size:11px;
+    }
+
+    .chart-container,
+    .nutrition-item canvas{
+        width:60px !important;
+        height:60px !important;
+    }
+}
+
+
+/* ================================================= */
+/* ================= SMALL PHONE =================== */
+/* ================================================= */
+
+@media (max-width:390px){
+
+    .card{
+        padding:14px;
+    }
+}
+
+/* ================================================= */
+/* ===== MOBILE TOPBAR FIX FINAL (COPY THIS) ======= */
+/* ================================================= */
+
+@media (max-width: 768px) {
+
+    /* ================= DROPDOWN ================= */
+
+    .dropdown-wrapper{
+        position: relative;
+
+        display: flex;
+        align-items: center;
+
+        max-width: 160px;
+        flex-shrink: 0;
+    }
+
+    .child-dropdown{
+        width: 100%;
+        max-width: 160px;
+
+        font-size: 12px;
+
+        padding: 10px 34px 10px 12px;
+        border-radius: 12px;
+
+        box-sizing: border-box;
+    }
+
+    .dropdown-icon-right{
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+
+        width: 12px;
+        height: 12px;
+
+        pointer-events: none;
+    }
+
+    /* ================= HELLO TEXT ================= */
+
+    .hello-text{
+        font-size: 11px;
+        line-height: 1.2;
+
+        text-align: right;
+
+        max-width: 90px;
+
+        white-space: normal;
+        word-break: break-word;
+
+        flex-shrink: 0;
+    }
+
+    /* ================= SAFETY FIX ================= */
+
+    .topbar-left,
+    .topbar-right{
+        display: flex;
+        align-items: center;
+    }
+
+    .topbar-right{
+        margin-left: auto;
+    }
+}
+
+
+/* ================================================= */
+/* ===== EXTRA SMALL PHONE ========================== */
+/* ================================================= */
+
+@media (max-width: 390px){
+
+    .hello-text{
+        font-size: 10px;
+        max-width: 75px;
+    }
+
+    .child-dropdown{
+        max-width: 140px;
         font-size: 11px;
     }
-
-    .TSKH-footer {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .card-TSKH {
-        transform: none;
-    }
-
 }

@@ -1,3 +1,14 @@
+/* =========================
+   GLOBAL SPACING
+========================= */
+
+:root{
+
+    --page-padding-desktop:20px;
+    --page-padding-mobile:16px;
+
+}
+
 /* ===== LAYOUT ===== */
 .layout {
     display: flex;
@@ -89,24 +100,66 @@
 }
 
 /* ===== MAIN CONTENT ===== */
-.main-content {
-    margin-left: 200px;
-    flex: 1;
-    background: #f5f6f8;
-    padding: 30px;
+
+.main-content{
+
+    flex:1;
+
+    margin-left:200px;
+
+    min-height:100vh;
+
+    background:#f5f6f8;
+
+    padding:var(--page-padding-desktop);
+
+    box-sizing:border-box;
+
+    overflow-x:hidden;
+
 }
-/* ================= MOBILE ================= */
+@media (max-width:768px){
+.main-content{
 
-@media (max-width: 768px) {
+    margin-left:0;
 
-    .sidebar {
-        display: none;
+    width:100%;
+
+    padding:var(--page-padding-mobile);
+
+    box-sizing:border-box;
+
+}
+
+    .sidebar{
+        display:flex;
+        position:fixed;
+        left:-220px;
+        top:0;
+        width:200px;
+        height:100vh;
+        transition:.3s;
+        z-index:2000;
     }
 
-    .main-content {
-        margin-left: 0;
-        padding: 15px;
-        width: 100%;
+    .sidebar.show{
+        left:0;
+    }
+
+    .sidebar-overlay{
+        display:none;
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,.35);
+        z-index:1500;
+    }
+
+    .sidebar-overlay.show{
+        display:block;
+    }
+
+    .layout{
+        overflow-x:hidden;
     }
 
 }

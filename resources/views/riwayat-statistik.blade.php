@@ -7,23 +7,18 @@
 
     <div class="history-wrapper">
 
-        {{-- HEADER --}}
-        <div class="history-header">
+            {{-- TOPBAR --}}
+<x-mobile-topbar>
 
-            <div class="history-title-area">
+    <div class="topbar-left">
 
-                <h1>
-                    Riwayat Statistik Nutrisi
-                </h1>
+        <h2 class="page-title">
+            Riwayat Statistik
+        </h2>
 
-                <p>
-                    Pantau laporan evaluasi nutrisi yang pernah dibuat
-                </p>
+    </div>
 
-            </div>
-
-        </div>
-
+</x-mobile-topbar>
         {{-- GRID --}}
         <div class="history-grid">
 
